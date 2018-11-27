@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>宿舍维修</title>
+    <link href="/css/main.css" rel='stylesheet' type='text/css'/>
+    <link href="/css/index.css" rel='stylesheet' type='text/css'/>
+</head>
+<body>
+    <header th:replace="common :: header"></header>
+
+    <div>
+        <form action="" th:action="@{/student/submit}"  method="post">
+            <table>
+                <h2>宿舍维修申请</h2>
+                <thead>
+                <tr>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>宿舍地址：</td>
+                    <td><input type="text" name="address" placeholder="燕华七栋 A202"></td>
+                </tr>
+                <tr>
+                    <td>联系人姓名：</td>
+                    <td><input type="text"  name="name" ></td>
+                </tr>
+                <tr>
+                    <td>联系人电话：</td>
+                    <td><input type="text" name="phone"></td>
+                </tr>
+                <tr>
+                    <td>联系人学号;</td>
+                    <td><input type="text" name="schoolId" ></td>
+                </tr>
+                <tr>
+                    <td>维修描述：</td>
+                    <td><input type="text" name=" des"></td>
+                </tr>
+                <tr>
+                    <td>备注信息：</td>
+                    <td><input type="text" name="remark"></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><input type="submit" name="提交申请表" id=""></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+
+
+
+</body>
+</html>

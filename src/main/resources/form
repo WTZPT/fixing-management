@@ -1,0 +1,30 @@
+CREATE TABLE `form`(
+     `id` int(11)  AUTO_INCREMENT COMMENT '订单唯一ID',
+       `school_id` varchar(20) NOT NULL COMMENT '学生学号',
+       `name` VARCHAR(10) NOT NULL COMMENT '学生名',
+       `work_id` VARCHAR(10) NOT null COMMENT '维修工工号',
+       `address`  varchar(15) NOT NULL COMMENT '维修地址',
+       `des` text NOT null COMMENT '维修描述',
+       `status` int  NOT NULL DEFAULT  -3 COMMENT '订单状态',
+       `remark` text default '' COMMENT ' 备注信息',
+       `assess` text default '' COMMENT '评价信息',
+       `create_time` timestamp not null DEFAULT current_timestamp COMMENT '/创建时间' ,
+       `end_time` timestamp    COMMENT '结单时间' ,
+        PRIMARY KEY(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='修理订单信息表';
+
+
+USE priman
+INSERT INTO form(school_id,name,work_id,address,phone,des,status)
+VALUES('16010300989','tom','110001','燕华8 C202','13631236488','宿舍椅子坏了','4'),
+('16010300980','tony','110001','燕华5 C202','13631236467','宿舍空调坏了','2'),
+('16010300985','junny','110001','燕华1 C202','13631236467','宿舍空调坏了','3');
+
+
+INSERT INTO form(school_id,name,address,phone,des,status)
+VALUES('16010300955','肖晖继','燕华89 A202','13631236555','宿舍椅子坏了','-3'),
+('16010300978','望趋','燕华89 B203','13631236532','宿舍椅子坏了','-3'),
+('16010300912','吴婧','燕华88 A202','13631236123','宿舍水龙头坏了','-3'),
+('16010300966','蒂仁','燕华89 A289','13631236321','宿舍空调坏漏水','-3'),
+('16010300913','易志梅','海华5 D202','13631231277','宿舍坏了','-1'),
+('16010300985','妮琵','海华1 C202','13631236967','宿舍空调坏了','-2');
