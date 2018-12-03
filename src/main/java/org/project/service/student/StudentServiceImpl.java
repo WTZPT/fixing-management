@@ -1,9 +1,13 @@
 package org.project.service.student;
 
+import org.project.base.ServiceMultiResult;
 import org.project.base.ServiceResult;
+import org.project.entity.User;
+import org.project.repository.UserRepository;
 import org.project.web.dto.IdentityDTO;
 import org.project.entity.FixingForm;
 import org.project.repository.FixingFormRepository;
+import org.project.web.form.StuForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +24,25 @@ public class StudentServiceImpl implements  StudentService {
 
     @Autowired
     FixingFormRepository fixingFormRepository;
-
+    @Autowired
+    UserRepository userRepository;
     @Override
-    public ServiceResult submitForm(FixingForm fixingForm) {
+    public ServiceResult submitForm(StuForm stuForm) {
 
-        /**
-         * 缺少对用户的权限认证
-         */
 
+
+       User user =  userRepository.findByName(stuForm.getAccountName());
+
+       if(user == null)
+           return new ServiceResult(false,"用户认证失败，请重新提交申请单！");
+
+        FixingForm fixingForm = new FixingForm();
+        fixingForm.setAddress(stuForm.getAddress());
+        fixingForm.setDes(stuForm.getDes());
+        fixingForm.setPhone(stuForm.getPhone());
+        fixingForm.setRemark(stuForm.getRemark());
+        fixingForm.setName(stuForm.getName());
+        fixingForm.setSchoolId(String.valueOf(user.getId()));
 
         fixingFormRepository.save(fixingForm);
 
@@ -49,7 +64,10 @@ public class StudentServiceImpl implements  StudentService {
     }
 
     @Override
-    public List<FixingForm> findByUser(IdentityDTO identityDTO) {
+    public ServiceMultiResult<FixingForm> findByUser(IdentityDTO identityDTO) {
+
+
+
         return null;
     }
 }

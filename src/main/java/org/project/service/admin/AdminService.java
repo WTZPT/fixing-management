@@ -50,7 +50,5 @@ public interface AdminService {
      */
     public ServiceResult assignFixing(long id,String wordId);
 
-    /**
-     * 监控评价信息
-     */
+
 }

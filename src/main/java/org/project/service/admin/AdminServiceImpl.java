@@ -21,6 +21,7 @@ public class AdminServiceImpl implements  AdminService {
     @Autowired
     FixingFormRepository fixingFormRepository;
 
+
     @Override
     public ServiceMultiResult<FixingForm> findAllByFixing() {
        Iterable<FixingForm> fixingForms = fixingFormRepository.findAll();
@@ -95,6 +96,11 @@ public class AdminServiceImpl implements  AdminService {
         if(fixingForm == null) {
             return new ServiceResult(false,"库中无该订单！");
         }
+
+        /**
+         * 缺少对维修工号检查
+         *
+         */
 
         fixingFormRepository.addWorker(id,wordId);
 

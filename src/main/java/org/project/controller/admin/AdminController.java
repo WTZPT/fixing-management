@@ -6,10 +6,7 @@ import org.project.service.admin.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +32,20 @@ public class AdminController {
     public String list() {
 
         return "admin/house-list";
+    }
+
+    @GetMapping("/admin/fixing/list")
+    public String listFixing(Model model) {
+        ServiceMultiResult<FixingForm> serviceMultiResult =  adminService.findAllByFixing();
+        model.addAttribute("fixings",serviceMultiResult.getResult());
+        return "admin/fixing-list";
+    }
+
+    @RequestMapping("/admin/fixing/finshed")
+    public String listFixingFinsh(Model model) {
+        ServiceMultiResult<FixingForm> serviceMultiResult =  adminService. findExpiredByFixing();
+        model.addAttribute("fixings",serviceMultiResult.getResult());
+        return "admin/fixing-list:fixings-list";
     }
 
     @ResponseBody

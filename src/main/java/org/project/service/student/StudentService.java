@@ -1,9 +1,11 @@
 package org.project.service.student;
 
 
+import org.project.base.ServiceMultiResult;
 import org.project.base.ServiceResult;
 import org.project.entity.FixingForm;
 import org.project.web.dto.IdentityDTO;
+import org.project.web.form.StuForm;
 
 
 import java.util.List;
@@ -17,7 +19,7 @@ public interface StudentService {
     /**
      * 提交维修单
      */
-    public ServiceResult submitForm(FixingForm fixingForm);
+    public ServiceResult submitForm(StuForm stuForm);
 
     /**
      * 提交評價信息
@@ -27,7 +29,7 @@ public interface StudentService {
     /**
      * 查询历史订单
      */
-    public  List<FixingForm> findByUser(IdentityDTO identityDTO);
+    public ServiceMultiResult<FixingForm> findByUser(IdentityDTO identityDTO);
 
 
 }

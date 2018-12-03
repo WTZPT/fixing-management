@@ -4,6 +4,7 @@ import org.project.base.ServiceResult;
 import org.project.entity.FixingForm;
 import org.project.repository.FixingFormRepository;
 import org.project.service.student.StudentService;
+import org.project.web.form.StuForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,11 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 /**
  * @Author weitangzhao
@@ -39,12 +38,17 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/student/submit",method = RequestMethod.POST)
-    public String sumbitPrcess(FixingForm fixingForm) {
+    public String sumbitPrcess(StuForm stuForm,Model model) {
 
-        ServiceResult serviceResult = studentService.submitForm(fixingForm);
+       // LOGGER.info(stuForm.getAccountName());
+        ServiceResult serviceResult = studentService.submitForm(stuForm);
 
-        return serviceResult.getMessage();
+        model.addAttribute("msg",serviceResult.getMessage());
 
+        if(serviceResult.isSuccess())
+            return "success";
+        else
+            return "fail";
     }
 
 }

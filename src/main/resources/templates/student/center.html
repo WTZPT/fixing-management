@@ -10,7 +10,7 @@
     <header th:replace="common :: header"></header>
 
     <div>
-        <form action="" th:action="@{/student/submit}"  method="post">
+        <form action=""  th:action="@{/student/submit}"  method="post">
             <table>
                 <h2>宿舍维修申请</h2>
                 <thead>
@@ -32,17 +32,16 @@
                     <td><input type="text" name="phone"></td>
                 </tr>
                 <tr>
-                    <td>联系人学号;</td>
-                    <td><input type="text" name="schoolId" ></td>
-                </tr>
-                <tr>
                     <td>维修描述：</td>
-                    <td><input type="text" name=" des"></td>
+                    <td><input type="text" name="des"></td>
                 </tr>
                 <tr>
                     <td>备注信息：</td>
                     <td><input type="text" name="remark"></td>
                 </tr>
+
+
+                   <input type="hidden" name="accountName"  th:value="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
 
                 <tr>
                     <td></td>

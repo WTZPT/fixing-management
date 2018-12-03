@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="admin/common :: head"></div>
+    <link rel="stylesheet" type="text/css" href="/css/admin/house-list.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="/lib/respond.min.js"></script>
+    <![endif]-->
+    <title>订单列表</title>
+    <script>
+        function get_finsh() {
+            $('#fixings-list').load("/admin/fixing/finshed")
+        }
+
+    </script>
+</head>
+<body>
+<nav class="breadcrumb">
+    <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 订单管理
+    <span class="c-gray en">&gt;</span> 订单列表
+    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+       href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i>
+    </a>
+</nav>
+<div class="text-c">
+
+</div>
+
+<div class="page-container">
+    <div class="text-c">
+        <span class="select-box inline">
+            <select id="city" name="city" class="select">
+                <option value="">全部订单</option>
+            </select>
+        </span>
+        <span class="select-box inline">
+            <select id="houseStatus" name="houseStatus" class="select">
+            <option value="">全部</option>
+                <option value="0">已完成</option>
+                <option value="1">待审核订单</option>
+                <option value="2">进行中订单</option>
+                <option value="3">申请撤销</option>
+            </select>
+		</span> 创建时间：
+        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'createTimeMax\')||\'%y-%M-%d\'}' })"
+               id="createTimeMin" class="input-text Wdate" style="width:110px;">
+        -
+        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'createTimeMin\')}',maxDate:'%y-%M-%d' })"
+               id="createTimeMax" class="input-text Wdate" style="width:110px;">
+        <input type="text" name="houseTitle" id="houseTitle" placeholder=" 维修物品" style="width:250px" class="input-text">
+        <button id="houseSearch" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i>
+            搜维修单
+        </button>
+    </div>
+    <div class="mt-20" th:fragment="fixings-list">
+        <table id="data-table"
+               class="table table-border table-bordered table-bg table-hover table-sort table-responsive"
+               style="width: 100%">
+            <thead>
+            <tr class="text-c">
+                <th width="15">编号</th>
+                <th>联系人</th>
+                <th>联系电话</th>
+                <th>维修员工号</th>
+                <th>维修地址</th>
+                <th>维修描述</th>
+                <th>评价信息</th>
+                <th>创建时间</th>
+                <th>发布状态</th>
+                <th width="80">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="emp : ${fixings}">
+                <td th:text="${emp.id}" id="id_${emp.count}" width="60px">1</td>
+                <td th:text="${emp.name}" id="name_${emp.id}">2</td>
+                <td th:text="${emp.phone}" id="phone_${emp.id}">3</td>
+                <td th:text="${emp.workId}" id="workId_${emp.id}">2</td>
+                <td th:text="${emp.address}">3</td>
+                <td th:text="${emp.des}">3</td>
+                <td th:text="${emp.assess}">2</td>
+                <td th:text="${emp.createTime}">3</td>
+                <td>
+                    <span th:if="${emp.status ==  -3}" >待审核</span>
+                    <span th:if="${emp.status == -2}" >撤销订单</span>
+                    <span th:if="${emp.status ==  0}" >审核无通过</span>
+                    <span th:if="${emp.status == -1}" >需要修改</span>
+                    <span th:if="${emp.status == 2 }" >待接单</span>
+                    <span th:if="${emp.status ==  3}" >催促中</span>
+                    <span th:if="${emp.status == 4 }" >订单完成</span>
+                </td>
+                <td style="text-align: center;" width="240px">
+                        <button type="button" class="btn btn-info " th:if="${emp.status == 2 }">派单</button>
+                        <button type="button" class="btn btn-warning " th:if="${emp.status ==  -3}">退回</button>
+                        <button type="button" class="btn btn-success"  th:if="${emp.status ==  -3}">通过</button>
+                        <button type="button" class="btn btn-danger  " th:if="${emp.status == 4 }" >删除</button>
+                        <button type="button" class="btn btn-warning " th:if="${emp.status == 3 }" >催单</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/admin/house-list.js"></script>
+</body>
+</html>
