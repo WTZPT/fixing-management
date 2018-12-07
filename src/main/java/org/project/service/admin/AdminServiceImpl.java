@@ -70,7 +70,7 @@ public class AdminServiceImpl implements  AdminService {
         if (fixingForm == null) {
             return new ServiceResult<>(false,"没有找到该订单！");
         } else {
-            return new ServiceResult<>(true,"找到订单！",fixingForm);
+            return new ServiceResult<>(true,"找到修理单！",fixingForm);
         }
 
     }
@@ -82,11 +82,24 @@ public class AdminServiceImpl implements  AdminService {
         if(fixingForm == null) {
             return new ServiceResult(false,"库中无该订单！");
         } else if(fixingForm.getState() == status) {
-            return new ServiceResult(false,"订单状态无需更改！");
+            return new ServiceResult(false,"修理单状态无需更改！");
         }
         fixingFormRepository.updateStatus(id,status);
 
-        return new ServiceResult(true,"订单状态修改成功！");
+        return new ServiceResult(true,"修理单状态修改成功！");
+    }
+
+    @Override
+    public ServiceResult backFixing(long id, String msg) {
+        FixingForm fixingForm = fixingFormRepository.findById(id);
+
+        if(fixingForm == null) {
+            return new ServiceResult(false,"库中无该订单！");
+        }
+
+        fixingFormRepository.addRemark(id,msg);
+        fixingFormRepository.updateStatus(id,0);
+        return new ServiceResult(true,"修理单号："+id+" 已被退回！");
     }
 
     @Override
@@ -103,7 +116,18 @@ public class AdminServiceImpl implements  AdminService {
          */
 
         fixingFormRepository.addWorker(id,wordId);
+        fixingFormRepository.updateStatus(id,2);
 
         return new ServiceResult(true,"订单由工号：" + wordId + "负责。");
+    }
+
+    @Override
+    public ServiceResult delFixing(long id) {
+        FixingForm fixingForm = fixingFormRepository.findById(id);
+        if(fixingForm == null) {
+            return new ServiceResult(false, "修理单已被删除！");
+        }
+        fixingFormRepository.delete(id);
+        return new ServiceResult(true, "修理单删除成功！");
     }
 }

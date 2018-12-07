@@ -46,9 +46,17 @@ public interface AdminService {
     public ServiceResult upDateById(long id,int status);
 
     /**
+     * 退回维修单信息写入
+     */
+    public ServiceResult backFixing(long id,String msg);
+
+    /**
      * 分配维修单
      */
     public ServiceResult assignFixing(long id,String wordId);
 
-
+    /**
+     * 删除订单
+     */
+    public ServiceResult delFixing(long id);
 }

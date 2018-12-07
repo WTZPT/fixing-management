@@ -4,16 +4,136 @@
     <div th:include="admin/common :: head"></div>
     <link rel="stylesheet" type="text/css" href="/css/admin/house-list.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+
     <!--[if lt IE 9]>
+
     <script type="text/javascript" src="/lib/html5shiv.js"></script>
     <script type="text/javascript" src="/lib/respond.min.js"></script>
+
     <![endif]-->
+
     <title>订单列表</title>
-    <script>
-        function get_finsh() {
-            $('#fixings-list').load("/admin/fixing/finshed")
+    <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script  type="text/javascript">
+
+        $(function(){
+            $("#houseStatus").change(function(){
+                var flag = $(this).val()
+                console.log(flag)
+                if(flag == 0) {
+                    $('#fixings-list').load("/admin/finshed-list")
+                } else if(flag == 1) {
+                    $('#fixings-list').load("/admin/review-list")
+                } else if (flag == 2) {
+                    $('#fixings-list').load("/admin/process-list")
+                } else if(flag == 3) {
+                    $('#fixings-list').load("/admin/all-list")
+                }
+            })
+
+            $("#order-input").click(function () {
+                $.post("/admin/order-fixing",{
+                    id: $("#order-fixingId").val(),
+                    workId: $("#order-workId").val(),
+                },
+                function (data) {
+                    alert(data)
+                })
+            })
+
+
+        })
+
+        function edit(id) {
+            $("#order-fixingId").val(id);
         }
 
+        function order_fixing() {
+
+        }
+
+        function resp_back(id) {
+            var flag = confirm("确认退回？");
+            if(flag == true) {
+                var msg = prompt("请输入退回理由：","")
+                if(msg!="") {
+                    $.post("/admin/back-fixing",{
+                        id: id,
+                        msg: msg
+                    }, function (data) {
+                        alert(data)
+                    })
+                } else {
+                    alert("请备注退回信息！")
+                }
+
+
+            }
+
+        }
+
+        function  resp_del(id) {
+            var flag = confirm("确认删除？");
+            if(flag == true) {
+                var msg;
+
+                if (window.XMLHttpRequest)
+                {
+                    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange=function()
+                {
+
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                    {
+                        alert(xmlhttp.responseText);
+                    }
+                }
+                xmlhttp.open("POST","/admin/del-fixing",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("id="+id);
+            }
+        }
+
+        function resp_accept(id) {
+            var flag = confirm("确认通过？");
+            if(flag == true) {
+                var msg;
+
+                if (window.XMLHttpRequest)
+                {
+                    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange=function()
+                {
+
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                    {
+                        alert(xmlhttp.responseText);
+                    }
+                }
+                xmlhttp.open("POST","/admin/update-fixing",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("id="+id+"&&status=2");
+            }
+        }
+
+        function resp_press() {
+
+        }
     </script>
 </head>
 <body>
@@ -37,11 +157,10 @@
         </span>
         <span class="select-box inline">
             <select id="houseStatus" name="houseStatus" class="select">
-            <option value="">全部</option>
+              <option value="3">全部</option>
                 <option value="0">已完成</option>
                 <option value="1">待审核订单</option>
                 <option value="2">进行中订单</option>
-                <option value="3">申请撤销</option>
             </select>
 		</span> 创建时间：
         <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'createTimeMax\')||\'%y-%M-%d\'}' })"
@@ -54,7 +173,7 @@
             搜维修单
         </button>
     </div>
-    <div class="mt-20" th:fragment="fixings-list">
+    <div class="mt-20" id="fixings-list" th:fragment="fixings-list">
         <table id="data-table"
                class="table table-border table-bordered table-bg table-hover table-sort table-responsive"
                style="width: 100%">
@@ -69,40 +188,84 @@
                 <th>评价信息</th>
                 <th>创建时间</th>
                 <th>发布状态</th>
+                <th>备注信息</th>
                 <th width="80">操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="emp : ${fixings}">
-                <td th:text="${emp.id}" id="id_${emp.count}" width="60px">1</td>
-                <td th:text="${emp.name}" id="name_${emp.id}">2</td>
-                <td th:text="${emp.phone}" id="phone_${emp.id}">3</td>
-                <td th:text="${emp.workId}" id="workId_${emp.id}">2</td>
+            <tr th:each="emp,empStat:${fixings}">
+                <td th:text="${empStat.count}"  width="60px" th:value="${emp.id}" >1</td>
+                <td th:text="${emp.name}" >2</td>
+                <td th:text="${emp.phone}" >3</td>
+                <td th:text="${emp.workId}" >2</td>
                 <td th:text="${emp.address}">3</td>
                 <td th:text="${emp.des}">3</td>
                 <td th:text="${emp.assess}">2</td>
                 <td th:text="${emp.createTime}">3</td>
+                <td th:text="${emp.remark}">3</td>
                 <td>
                     <span th:if="${emp.status ==  -3}" >待审核</span>
                     <span th:if="${emp.status == -2}" >撤销订单</span>
-                    <span th:if="${emp.status ==  0}" >审核无通过</span>
                     <span th:if="${emp.status == -1}" >需要修改</span>
+                    <span th:if="${emp.status ==  0}" >审核无通过</span>
                     <span th:if="${emp.status == 2 }" >待接单</span>
                     <span th:if="${emp.status ==  3}" >催促中</span>
                     <span th:if="${emp.status == 4 }" >订单完成</span>
+                    <span th:if="${emp.status ==  5}" >进行中</span>
                 </td>
-                <td style="text-align: center;" width="240px">
-                        <button type="button" class="btn btn-info " th:if="${emp.status == 2 }">派单</button>
-                        <button type="button" class="btn btn-warning " th:if="${emp.status ==  -3}">退回</button>
-                        <button type="button" class="btn btn-success"  th:if="${emp.status ==  -3}">通过</button>
-                        <button type="button" class="btn btn-danger  " th:if="${emp.status == 4 }" >删除</button>
-                        <button type="button" class="btn btn-warning " th:if="${emp.status == 3 }" >催单</button>
+                <td style="text-align: center;" width="240px"  th:value="${emp.id}">
+                        <button type="button" class="btn btn-info " th:if="${emp.status == 2 }" th:onclick="'javascript:edit('+${emp.id}+');'"  data-toggle="modal" data-target="#orderFixing" >派单</button>
+                        <button type="button" class="btn btn-warning " th:if="${emp.status ==  -3}" th:onclick="'javascript:resp_back('+${emp.id}+');'" >退回</button>
+                        <button type="button" class="btn btn-success"  th:if="${emp.status ==  -3}" th:onclick="'javascript:resp_accept('+${emp.id}+');'" >通过</button>
+                        <button type="button" class="btn btn-danger  " th:if="${emp.status == 4 }"  th:onclick="'javascript:resp_del('+${emp.id}+');'" >删除</button>
+                        <button type="button" class="btn btn-warning " th:if="${emp.status == 3 }" onclick="resp_press()">催单</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<script type="text/javascript" src="/static/js/admin/house-list.js"></script>
+<!--<script type="text/javascript" src="/js/admin/house-list.js"></script>-->
+
+<!-- 分配修理单模态框（Modal） -->
+<div class="modal fade form-inline" id="orderFixing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    派单
+                </h4>
+
+            </div>
+
+            <div class="modal-body" >
+                <form id="form_data" name="form"  ation="" method="post" >
+                    <table style="padding-left: 20%;">
+                        <tr>
+                            <td>分配修理工号: </td>
+                            <td><input type="text" id="order-workId"  class="form-control" name="sid"/></td>
+                        </tr>
+                        <input type="hidden" id="order-fixingId"  class="form-control" name="id"/>
+
+                    </table>
+                </form>
+                <input type="hidden" id="act" value="add" name="act"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  class="btn btn-default" data-dismiss="modal">
+                    取消
+                </button>
+                <button type="button" id="order-input" class="btn btn-primary">
+                    提交
+                </button>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 </html>

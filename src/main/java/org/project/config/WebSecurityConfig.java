@@ -27,19 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         //资源访问
         http.authorizeRequests()
-                /**
                 .antMatchers("/admin/login").permitAll()
                 .antMatchers("/static/**").permitAll()
-                .antMatchers("/user/login").permitAll()
                 .antMatchers("/student/login").permitAll()
-                .antMatchers("/fixing/login").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/student/**").hasAnyRole("USER")
-                .antMatchers("/fixing/**").hasAnyRole("WORKER")
                 .antMatchers("/api/user/**").hasAnyRole("ADMIN","USER")
-                 **/
-                .antMatchers("/../..").permitAll()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login")  //配置入口角色登录

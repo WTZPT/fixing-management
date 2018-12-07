@@ -19,7 +19,7 @@ public class WorkerController {
 
     @RequestMapping("/fixing/login")
     public String login() {
-        return "fixing/login";
+        return "/main/resources/templates/repairman/login.html";
     }
 
     @RequestMapping("fixing/form")
