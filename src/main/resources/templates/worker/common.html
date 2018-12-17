@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:fragment="head">
-    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-    <link href="/css/common.css" rel='stylesheet' type='text/css'/>
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css/common.css" rel='stylesheet' type='text/css'/>
 </div>
 
 <header th:fragment="header" class="xunwu-header">
@@ -17,13 +17,13 @@
                 <div class="fl">
                     <ul>
                         <li>
-                            <a class="index-page" href="/">公共大厅</a>
+                            <a class="index-page" href="/">首页</a>
                         </li>
                         <li>
-                            <a class="rent-page" href="/student/history-list">历史维修单</a>
+                            <a class="rent-page" href="/worker/list">订单列表</a>
                         </li>
                         <li>
-                            <a class="center-page" href="/student/center">个人中心</a>
+                            <a class="center-page" href="/worker/center">个人中心</a>
                         </li>
                     </ul>
                 </div>
@@ -33,7 +33,7 @@
                             <div th:if="${session==null || session.SPRING_SECURITY_CONTEXT==null}">
                                 <span class="welcome">
                                     <a class="btn-register" href="/user/login"
-                                       rel="nofollow"><span class="log">免注册登录</span></a>
+                                       rel="nofollow"><span class="log">登录</span></a>
                                     <!--|<a class="btn-login bounceIn actLoginBtn" href="/user/login"><span-->
                                             <!--class="reg">登录</span></a>-->
                                 </span>

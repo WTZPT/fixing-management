@@ -44,6 +44,9 @@ public class HomeContorller {
             return "redirect:admin/center";
         }
 
+        if(auth.getAuthorities().toString().equals("[ROLE_WORKER]")) {
+            return "redirect:worker/center";
+        }
 
         return "index";
     }
