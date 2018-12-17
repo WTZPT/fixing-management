@@ -37,6 +37,11 @@ public class StudentController {
         return "student/center";
     }
 
+    @GetMapping("/student/history-list")
+    public String historyList(Model model) {
+
+        return "student/history-list";
+    }
     @RequestMapping(value = "/student/submit",method = RequestMethod.POST)
     public String sumbitPrcess(StuForm stuForm,Model model) {
 
@@ -46,9 +51,15 @@ public class StudentController {
         model.addAttribute("msg",serviceResult.getMessage());
 
         if(serviceResult.isSuccess())
+        {
+//            request.setAttribute("msg","success");
             return "success";
+        }
         else
-            return "fail";
+        {
+//            request.setAttribute("msg","failed");
+            return "failed";
+        }
     }
 
 }

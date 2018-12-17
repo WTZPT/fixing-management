@@ -23,7 +23,7 @@ public class StudentServiceImplTest extends FixingManagementApplicationTests {
     public void submitForm() {
         FixingForm fixingForm = new FixingForm("1601030092","13631236488","小明","燕华七栋A202","水表头漏水 请求修理");
 
-        studentService.submitForm(fixingForm);
+//        studentService.submitForm(fixingForm);
     }
 
     @Test

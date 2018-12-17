@@ -1,4 +1,4 @@
-CREATE TABLE `role` (
+wCREATE TABLE `role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
   `name` varchar(32) NOT NULL COMMENT '用户角色名',

@@ -7,7 +7,7 @@
     <link href="/css/index.css" rel='stylesheet' type='text/css'/>
 </head>
 <body>
-    <header th:replace="common :: header"></header>
+    <header th:replace="/student/common::header"></header>
 
     <div>
         <form action=""  th:action="@{/student/submit}"  method="post" >
@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <td>联系人姓名：</td>
-                    <td><input type="text"  name="name" ></td>
+                    <td><input type="text"  name="name" disabled="disabled" th:value="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}"></td>
                 </tr>
                 <tr>
                     <td>联系人电话：</td>
