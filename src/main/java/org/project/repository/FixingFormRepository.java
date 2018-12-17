@@ -52,6 +52,7 @@ import java.util.List;
      */
     FixingForm findById(long id);
 
+    List<FixingForm> findAllByName(String name);
 
 
 }

@@ -30,6 +30,10 @@ public interface StudentService {
      * 查询历史订单
      */
     public ServiceMultiResult<FixingForm> findByUser(IdentityDTO identityDTO);
+    /**
+     * 查询所有历史维修单
+     */
+    public ServiceMultiResult<FixingForm> findAllByName(String name);
 
 
 }

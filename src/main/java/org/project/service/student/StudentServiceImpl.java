@@ -70,4 +70,12 @@ public class StudentServiceImpl implements  StudentService {
 
         return null;
     }
+    /**
+     * 查询所有历史维修单
+     */
+    @Override
+    public ServiceMultiResult<FixingForm> findAllByName(String name){
+        List<FixingForm> fixingFormList = fixingFormRepository.findAllByName(name);
+        return new ServiceMultiResult<FixingForm>(fixingFormList.size(),fixingFormList);
+    }
 }

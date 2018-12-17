@@ -1,6 +1,7 @@
 package org.project.controller.student;
 
 import org.project.base.ServiceResult;
+import org.project.entity.FixingForm;
 import org.project.service.student.StudentService;
 import org.project.web.form.StuForm;
 import org.slf4j.Logger;
@@ -27,6 +28,10 @@ public class StudentController {
     public String centerPage(Model model){
 
         return "student/center";
+    }
+    @GetMapping("/student/history-list")
+    public  String historyListPage(Model model){
+        return "student/history-list";
     }
 
     @RequestMapping(value = "/student/submit",method = RequestMethod.POST)
