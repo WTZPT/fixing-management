@@ -6,6 +6,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -14,7 +16,7 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
  * @Author weitangzhao
  **/
 @Configuration
-public class WebMvcConfig
+public class WebMvcConfig extends WebMvcConfigurerAdapter
         implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -23,6 +25,15 @@ public class WebMvcConfig
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
             this.applicationContext = applicationContext;
     }
+
+    /**
+     * 静态资源加载配置
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+      //  registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+
 
     /**
      * 模板资源解析器

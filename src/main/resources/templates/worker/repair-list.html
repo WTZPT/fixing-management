@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/lib/datatables/1.10.15/jquery.dataTables.css">
+    <div th:include="admin/common :: head"></div>
+    <link rel="stylesheet" type="text/css" href="/css/admin/house-list.css">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="/lib/respond.min.js"></script>
+    <![endif]-->
+    <title>订单列表</title>
+    <link href="/css/main.css" rel='stylesheet' type='text/css'/>
+    <link href="/css/index.css" rel='stylesheet' type='text/css'/>
+
+    <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+
+        var worker;
+    $(function () {
+         worker = $("#username").text();
+        $("#fixings-list").load("/worker/detail-list?state=5&&worker="+worker);
+
+        $("#fixingStatus").change(function(){
+            var flag = $(this).val()
+            console.log(flag)
+            if(flag == 5) {
+                $("#fixings-list").load("/worker/detail-list?state=5&&worker="+worker);
+            } else if(flag == 4) {
+                $("#fixings-list").load("/worker/detail-list?state=4&&worker="+worker);
+            } else if (flag == 2) {
+                $("#fixings-list").load("/worker/detail-list?state=2&&worker="+worker);
+            }
+        })
+
+
+    })
+
+    function accept(id) {
+        var flag = confirm("确认接单？");
+        if(flag == true) {
+                $.post("/worker/accept",{
+                    formId: id,
+                    worker: worker
+                }, function (data) {
+                    alert(data)
+                })
+        }
+    }
+    </script>
+</head>
+<body>
+<header th:replace="/worker/common::header"></header>
+
+
+<div class="text-c">
+
+</div>
+<div class="cl pd-5 bg-1 bk-gray mt-20">
+
+</div>
+
+<div class="page-container">
+    <div class="text-c">
+        <span class="select-box inline">
+            <select id="city" name="city" class="select">
+                <option value="">全部订单</option>
+            </select>
+        </span>
+        <span class="select-box inline">
+            <select id="fixingStatus" name="houseStatus" class="select">
+                <option value="5">进行中订单</option>
+                <option value="4">已完成</option>
+                <option value="2">待确认订单</option>
+            </select>
+		</span> 创建时间：
+        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'createTimeMax\')||\'%y-%M-%d\'}' })"
+               id="createTimeMin" class="input-text Wdate" style="width:110px;">
+        -
+        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'createTimeMin\')}',maxDate:'%y-%M-%d' })"
+               id="createTimeMax" class="input-text Wdate" style="width:110px;">
+        <input type="text" name="houseTitle" id="houseTitle" placeholder=" 维修物品" style="width:250px" class="input-text">
+        <button id="houseSearch" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i>
+            搜维修单
+        </button>
+    </div>
+    <div class="mt-20" id="fixings-list" th:fragment="fixings-list">
+        <table id="data-table"
+               class="table table-border table-bordered table-bg table-hover table-sort table-responsive"
+               style="width: 100%">
+            <thead>
+            <tr class="text-c">
+                <th width="15">ID</th>
+                <th>联系人</th>
+                <th>联系电话</th>
+                <th>维修地址</th>
+                <th>维修描述</th>
+                <th>评价信息</th>
+                <th>订单状态</th>
+                <th width="80">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="emp,empStat:${fixings}">
+                <td th:text="${empStat.count}"  width="60px" th:value="${emp.id}" >1</td>
+                <td th:text="${emp.name}" >2</td>
+                <td th:text="${emp.phone}" >3</td>
+                <td th:text="${emp.address}">3</td>
+                <td th:text="${emp.des}">3</td>
+                <td th:text="${emp.assess}">2</td>
+                <td>
+                    <span th:if="${emp.status == 2 }" >待确认</span>
+                    <span th:if="${emp.status ==  3}" >催促中</span>
+                    <span th:if="${emp.status == 4 }" >订单完成</span>
+                    <span th:if="${emp.status ==  5}" >进行中</span>
+                </td>
+                <td style="text-align: center;" width="240px"  th:value="${emp.id}">
+                    <button type="button" class="btn btn-success " th:if="${emp.status == 2 }" th:onclick="'javascript:accept('+${emp.id}+');'"  >确认</button>
+                    <button type="button" class="btn btn-warning " th:if="${emp.status == 3 }" onclick="resp_press()">结单</button>
+                    <button type="button" class="btn btn-warning " th:if="${emp.status == 5 }" onclick="resp_press()">结单</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:include="admin/common :: footer"></footer>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/lib/datatables/1.10.15/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/static/js/admin/house-list.js"></script>
+</body>
+</html>

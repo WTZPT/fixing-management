@@ -34,6 +34,7 @@ public class StudentController {
         return "student/history-list";
     }
 
+
     @RequestMapping(value = "/student/submit",method = RequestMethod.POST)
     public String sumbitPrcess(StuForm stuForm,Model model) {
 

@@ -22,10 +22,12 @@ public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
     public LoginUrlEntryPoint(String loginFormUrl) {
         super(loginFormUrl);
         authEntryMap = new HashMap<>();
-        //普通用户登录入口
-        authEntryMap.put("/user/**", "/user/login");
+        //学生登录入口
+        authEntryMap.put("/student/**", "/student/login");
         //管理员登录入口
         authEntryMap.put("/admin/**", "/admin/login");
+        //修理工人登录入口
+        authEntryMap.put("/repairman/**", "/repairman/login");
     }
 
     /**

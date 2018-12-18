@@ -20,7 +20,7 @@
                             <a class="index-page" href="/">首页</a>
                         </li>
                         <li>
-                            <a class="rent-page" href="/worker/list">订单列表</a>
+                            <a class="rent-page" href="/worker/repair">订单列表</a>
                         </li>
                         <li>
                             <a class="center-page" href="/worker/center">个人中心</a>
@@ -40,8 +40,8 @@
                             </div>
 
                             <div th:if="${session!=null && session.SPRING_SECURITY_CONTEXT!=null}">
-                                <a href="/user/center">
-                                    <span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
+                                <a href="/worker/center">
+                                    <span  id="username" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
                                         用户名
                                     </span>
                                 </a>

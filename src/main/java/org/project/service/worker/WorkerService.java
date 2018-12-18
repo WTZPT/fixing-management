@@ -10,6 +10,11 @@ import org.project.entity.FixingForm;
 public interface WorkerService {
 
     /**
+     * 查询工号
+     */
+    public ServiceResult<String> findWorkId(String name);
+
+    /**
      * 根据状态查询订单
      */
     public ServiceMultiResult<FixingForm> findAssignByStatus(String workId,int status);
